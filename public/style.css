@@ -1,0 +1,102 @@
+.wrapper {
+    width: 1280px;
+}
+
+.football {
+    min-height: 350px;
+}
+
+.other {
+    width: 700px;
+}
+
+#log {
+    overflow: auto;
+    max-height: 350px;
+    max-width: 450px;
+}
+
+a:link { color: black; text-decoration: none }
+
+a:visited { color: black; }
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.clearfix {
+    overflow: auto;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.padding-1 {
+    padding: 1rem;
+}
+
+.padding-bottom-1 {
+    padding-bottom: 1rem;
+}
+
+.margin-bottom-1 {
+    margin-bottom: 1rem;
+}
+
+.display-none {
+    display: none;
+}
+
+.chat-connection { color: green; }
+
+.error { color: #F00; }
+
+#sectors {
+    display: block;
+    width: 300px;
+    position: relative;
+}
+
+#places {
+    display: block;
+    width: 450px;
+    position: relative;
+}
+
+.item {
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul li a {
+    display: block;
+    margin: .1rem;
+    padding: .22rem;
+}
+
+.selected {
+    background-color: gold;
+}
+
+.reserved {
+    background-color: grey;
+}
+
+.purchased {
+    background-color: brown;
+}
+
+.subText {
+    color: dodgerblue;
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--<meta content="text/html; charset=UTF-8" http-equiv="content-type">-->
+    <title>Тестовое задание на позицию Back-End Developer</title>
+    <link rel="stylesheet" type="text/css" href="https://necolas.github.io/normalize.css/7.0.0/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/public/style.css">
+    <script src="/public/jquery-3.2.1.min.js"></script>
+    <script src="/public/app.js"></script>
+
+</head>
+<body>
+<a href="" target="_blank">Add another client</a>
+<div class="wrapper" id="container">
+    <!--<div class="float-left">-->
+    <!--<img src="/public/map.png">-->
+    <!--</div>-->
+    <div class="float-left football">
+        <div class="float-left padding-1" id="root-sectors">
+            <p>Выберите сектор:</p>
+            <div id="sectors"></div>
+        </div>
+        <div class="float-left padding-1" id="root-places">
+            <p>Выберите место:</p>
+            <div id="places"></div>
+        </div>
+        <div class="float-left padding-1" id="root-places_info">
+            <p id="place_title"></p>
+            <div id="places_info">
+            </div>
+        </div>
+    </div>
+    <div class="other">
+        <div class="float-left padding-1" id="personal">
+            <p>Мой аккаунт:</p>
+            <form name="account-login">
+                <input type="submit" name="account-login" value="Войти" onclick="action_click(this, event);">
+            </form>
+            <form name="account-register">
+                <input type="submit" name="account-register" value="Заререстрироватся" onclick="action_click(this, event);">
+            </form>
+
+            <div class="account" id="account"></div>
+
+        </div>
+        <!--<form name="frmChat" id="frmChat">-->
+        <!--<div id="chat-box"></div>-->
+        <!--<input type="text" name="chat-message" id="chat-message" placeholder="Message" class="chat-input chat-message"/>-->
+        <!--<input type="submit" id="btnSend" name="send-chat-message" value="Send">-->
+        <!--</form>-->
+
+        <div class="float-left padding-1">
+            <p>Логи (для отладки):</p>
+            <div id="log"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
