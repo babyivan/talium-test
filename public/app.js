@@ -36,33 +36,37 @@ function action_click(el, event) {
         param = alert_val("Введите ваш ID");
 
         ws_send({
-            login: param
+            action: "login",
+            action_data: param
         });
     }
     else if (el.name === "account-register") {
-        param = alert_val("Придумайте ID (пример: :f23DGS@#^cf)");
+        param = alert_val("Придумайте ID (например: :124FS");
 
         ws_send({
-            register: param
+            action: "register",
+            action_data: param
         });
     }
     else if (el.name === "place_reserve") {
         ws_send({
-            place_reserve: true
+            action: "place_reserve"
         });
     }
     else if (el.name === "place_buy") {
         ws_send({
-            place_buy: true
+            action: "place_buy"
         });
     }
 }
 
 function alert_val(text) {
-    var name = '';
-    while (name === '')
-        name = prompt(text + ":");
-    return name;
+    var userText = "";
+
+    while (userText.length < 1) {
+        userText = prompt(text);
+    }
+    return userText;
 }
 
 function ws_send(data) {
@@ -76,7 +80,10 @@ function sector_select(e, sector) {
     last_sector_selected = e;
     $(last_sector_selected).addClass('selected');
 
-    ws_send({selected_sector: sector});
+    ws_send({
+        action: "selected_sector",
+        action_data: sector
+    });
 }
 
 function place_select(e, place) {
@@ -85,7 +92,10 @@ function place_select(e, place) {
 
     last_place_selected = e;
     $(last_place_selected).addClass('selected');
-    ws_send({selected_place: place});
+    ws_send({
+        action: "selected_place",
+        action_data: place
+    });
 }
 
 window.onload = function () {
@@ -108,44 +118,33 @@ window.onload = function () {
             if (server_response.type === 'msg') {
                 showMessage("<div>" + server_response.data + "</div>");
             }
+
             else if (server_response.type === 'register') {
-                // showMessage("<div>" + server_response.data.msg + "</div>");
                 if (server_response.data.status === true)
                     user_name = server_response.data.user_name;
                 else
                     alert(server_response.data.msg);
             }
+
             else if (server_response.type === 'login') {
                 showMessage("<div>" + server_response.data.msg + "</div>");
 
                 ws_send({
-                    sectors_get: true
+                    action: "sectors_get"
                 });
-
             }
-            else if (server_response.type === 'sectors') {
 
+            else if (server_response.type === 'sectors') {
                 var sectors = $('<ul></ul>');
-                // var index, len;
-                // var a = server_response.data;
-                // for (index = 0, len = a.length; index < len; ++index) {
-                //     var row = $('<li></li>').addClass('float-left').append($('<a>', {
-                //             text: a[index],
-                //             title: 'Сектор - ' + a[index],
-                //             href: '#',
-                //             onclick: 'sector_select(this, ' + a[index] + ');'
-                //         }
-                //     ));
-                //     sectors.append(row);
-                // }
+
                 jQuery.each(server_response.data, function (i, val) {
                     var row = $('<li></li>').addClass('float-left').append($('<a>', {
-                            title: 'Сектор - ' + i + '  [Всего мест: ' + val.all_places + '; Забронировано: ' + val.the_process_of_booking + '; Куплено: ' + val.purchased_places + ']',
+                            title: 'Сектор - ' + i + '  [Всего мест: ' + val.all_places + '; Забронировано: ' + val.reserved_places + '; Куплено: ' + val.purchased_places + ']',
                             href: '#',
                             onclick: 'sector_select(this, ' + i + ');',
                             id: 'sector-' + i
                         }
-                    ).html(i + ' <small class="subText">[' + val.all_places + '/' + val.the_process_of_booking + '/' + val.purchased_places + ']</small>'));
+                    ).html(i + ' <small class="subText">[' + val.all_places + '/' + val.reserved_places + '/' + val.purchased_places + ']</small>'));
 
                     sectors.append(row);
                 });
@@ -157,10 +156,10 @@ window.onload = function () {
             else if (server_response.type === 'sector_update') {
                 var s = $('#sector-' + server_response.data.sector);
                 s.attr({
-                    title: 'Сектор - ' + server_response.data.sector + '  [Всего мест: ' + server_response.data.data.all_places + '; Забронировано: ' + server_response.data.data.the_process_of_booking + '; Куплено: ' + server_response.data.data.purchased_places + ']',
+                    title: 'Сектор - ' + server_response.data.sector + '  [Всего мест: ' + server_response.data.data.all_places + '; Забронировано: ' + server_response.data.data.reserved_places + '; Куплено: ' + server_response.data.data.purchased_places + ']',
                     href: '#',
                     onclick: 'sector_select(this, ' + server_response.data.sector + ');'
-                }).html(server_response.data.sector + ' <small class="subText">[' + server_response.data.data.all_places + '/' + server_response.data.data.the_process_of_booking + '/' + server_response.data.data.purchased_places + ']</small>');
+                }).html(server_response.data.sector + ' <small class="subText">[' + server_response.data.data.all_places + '/' + server_response.data.data.reserved_places + '/' + server_response.data.data.purchased_places + ']</small>');
             }
 
             else if (server_response.type === 'places') {
@@ -190,6 +189,7 @@ window.onload = function () {
                 remove_display_none('#root-places');
                 $('#places').html(places);
             }
+
             else if (server_response.type === 'place_info') {
                 $('#place_title').html('Информация о [Сектор: ' + last_sector_selected.innerHTML + ', Место: ' + last_place_selected.innerHTML + '] :');
                 var place_info = $('<div></div>');
@@ -239,7 +239,7 @@ window.onload = function () {
             showMessage("<div class='error'>Problem due to some Error</div>");
         };
         websocket.onclose = function (event) {
-            showMessage("<div class='chat-connection-ack'>Connection Closed</div>");
+            showMessage("<div>Connection Closed</div>");
         };
     }
 };

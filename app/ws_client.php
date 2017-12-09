@@ -3,89 +3,87 @@
 namespace app;
 
 
-class ws_client {
+class ws_client
+{
     private $id;
     private $socket;
     private $handshake;
-    private $isConnected;
-    
+
     private $name;
-    
-    private $clicked_sector;
-    private $clicked_place;
-    
-    public function __construct($id, $socket) {
+
+    private $last_selected_sector;
+    private $last_selected_place;
+
+    public function __construct(string $id, $socket)
+    {
         $this->id = $id;
         $this->socket = $socket;
         $this->handshake = false;
         $this->pid = null;
         $this->isConnected = true;
-        
+
         $this->name = null;
     }
-    
-    
-    public function getClickedSector() {
-        return $this->clicked_sector;
-    }
-    
-    public function setClickedSector($clicked_sector) {
-        $this->clicked_sector = $clicked_sector;
-    }
-    
-    public function getClickedPlace() {
-        return $this->clicked_place;
-    }
-    
-    public function setClickedPlace($clicked_place) {
-        $this->clicked_place = $clicked_place;
-    }
-    
-    public function getId() {
+
+    public function get_id(): string
+    {
         return $this->id;
     }
-    
-    public function setId($id) {
+
+    public function set_id(string $id)
+    {
         $this->id = $id;
     }
-    
-    public function getSocket() {
+
+    public function get_socket()
+    {
         return $this->socket;
     }
-    
-    public function setSocket($socket) {
+
+    public function set_socket($socket)
+    {
         $this->socket = $socket;
     }
-    
-    public function getHandshake() {
+
+    public function is_handshake(): bool
+    {
         return $this->handshake;
     }
-    
-    public function setHandshake($handshake) {
+
+    public function set_handshake(bool $handshake)
+    {
         $this->handshake = $handshake;
     }
-    
-    public function getPid() {
-        return $this->pid;
-    }
-    
-    public function setPid($pid) {
-        $this->pid = $pid;
-    }
-    
-    public function isConnected() {
-        return $this->isConnected;
-    }
-    
-    public function setIsConnected($isConnected) {
-        $this->isConnected = $isConnected;
-    }
-    
-    public function getName() {
+
+    public function get_name(): string
+    {
         return $this->name;
     }
-    
-    public function setName($name) {
+
+    public function set_name(string $name)
+    {
         $this->name = $name;
     }
+
+    public function get_last_selected_sector(): int
+    {
+        return $this->last_selected_sector;
+    }
+
+    public function set_last_selected_sector(int $last_selected_sector)
+    {
+        $this->last_selected_sector = $last_selected_sector;
+    }
+
+    public function get_last_selected_place(): int
+    {
+        return $this->last_selected_place;
+    }
+
+    public function set_last_selected_place(int $last_selected_place)
+    {
+        $this->last_selected_place = $last_selected_place;
+    }
+
+
 }
